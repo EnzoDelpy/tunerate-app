@@ -126,7 +126,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus d'informatio
 
 Enzo Delpy - [@EnzoDelpy](https://github.com/EnzoDelpy)
 
-Lien du projet : [https://github.com/EnzoDelpy/tunerate-frontend](https://github.com/EnzoDelpy/tunerate-frontend)
+Lien du projet : [https://github.com/EnzoDelpy/tunerate-frontend](https://github.com/EnzoDelpy/tunerate-app)
 
 ---
 
