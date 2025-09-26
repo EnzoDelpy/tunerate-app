@@ -130,4 +130,4 @@ Lien du projet : [https://github.com/EnzoDelpy/tunerate-frontend](https://github
 
 ---
 
-Réalisé avec ❤️ pour tous les passionnés de musique
+Réalisé par Enzo Delpy
