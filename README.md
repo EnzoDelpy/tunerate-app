@@ -1,22 +1,3 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-# TuneRate Frontend
-
-Interface utilisateur moderne pour l'application TuneRate, une plateforme de découverte et de notation d'albums musicaux inspirée de Letterboxd.
-
-![TuneRate](https://via.placeholder.com/1200x630/222222/FF5500?text=TuneRate)
-
 ## 🎵 À propos
 
 TuneRate est une application web qui permet aux passionnés de musique de découvrir, noter et partager leurs opinions sur des albums et des EP. Inspiré par Letterboxd (pour les films), TuneRate se concentre exclusivement sur les albums complets et les EP, créant ainsi une communauté dédiée à l'appréciation des œuvres musicales complètes.
