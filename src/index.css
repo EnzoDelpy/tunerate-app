@@ -1,0 +1,23 @@
+/* @import "tailwindcss/preflight"; */
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #f3f4f6; /* light gray background */
+  color: #111827; /* dark text */
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827; /* dark background */
+    color: #f3f4f6; /* light text */
+  }
+}
