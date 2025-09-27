@@ -269,7 +269,11 @@ export default function SearchAlbumsPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
                   {albums.map((album: Album) => (
                     <Link
-                      to={`/albums/${album.id || album.externalId}`}
+                      to={`/albums/${
+                        typeof album.id === "number"
+                          ? album.id
+                          : album.externalId
+                      }`}
                       key={album._uniqueId || album.id || album.externalId}
                       className="bg-neutral-900/50 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden hover:border-orange-500/30 transition-all hover:-translate-y-1 group cursor-pointer"
                     >

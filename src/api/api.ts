@@ -28,7 +28,8 @@ export type Artist = {
 
 export type Review = {
   id: number;
-  content: string;
+  comment: string; // Changé de content à comment pour correspondre au backend
+  content?: string; // Gardé pour la compatibilité en attendant la mise à jour de tous les composants
   rating: number;
   createdAt: string;
   updatedAt: string;
@@ -36,6 +37,10 @@ export type Review = {
   userId: number;
   user: User;
   album: Album;
+  likes?: number;
+  userHasLiked?: boolean;
+  parentReviewId?: number | null;
+  replies?: Review[];
 };
 
 export type User = {
@@ -126,6 +131,19 @@ export const usersApi = {
   },
 };
 
+// Fonction utilitaire pour obtenir le profil utilisateur courant
+export const getCurrentUser = async (): Promise<User | null> => {
+  try {
+    return await authApi.getProfile();
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération du profil utilisateur:",
+      error
+    );
+    return null;
+  }
+};
+
 // API pour les albums
 export const albumsApi = {
   getAllAlbums: async (page = 1, limit = 10): Promise<Album[]> => {
@@ -144,8 +162,20 @@ export const albumsApi = {
     return response.data;
   },
   getAlbumById: async (id: number | string): Promise<Album> => {
-    const response = await api.get(`/albums/${id}`);
-    return response.data;
+    try {
+      // Si l'id est numérique, c'est un ID interne
+      if (!isNaN(Number(id))) {
+        const response = await api.get(`/albums/${id}`);
+        return response.data;
+      } else {
+        // Sinon c'est un ID externe (Spotify)
+        const response = await api.get(`/albums/external/${id}`);
+        return response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching album:", error);
+      throw error;
+    }
   },
 };
 
@@ -166,17 +196,43 @@ export const artistsApi = {
 };
 
 // API pour les reviews
+export interface ReviewsResponse {
+  reviews: Review[];
+  hasMore: boolean;
+  total: number;
+}
+
 export const reviewsApi = {
-  getReviewsByAlbum: async (albumId: number): Promise<Review[]> => {
-    const response = await api.get(`/reviews/album/${albumId}`);
+  getReviewsByAlbum: async (
+    albumId: number,
+    page: number = 1,
+    limit: number = 5
+  ): Promise<ReviewsResponse> => {
+    const response = await api.get(
+      `/reviews/album/${albumId}?page=${page}&limit=${limit}`
+    );
+    // Si l'API backend ne supporte pas encore la pagination, on simule la réponse
+    if (Array.isArray(response.data)) {
+      return {
+        reviews: response.data,
+        hasMore: false,
+        total: response.data.length,
+      };
+    }
     return response.data;
   },
   createReview: async (
     albumId: number,
     content: string,
-    rating: number
+    rating: number,
+    parentReviewId?: number
   ): Promise<Review> => {
-    const response = await api.post("/reviews", { albumId, content, rating });
+    const response = await api.post("/reviews", {
+      albumId,
+      comment: content, // Utiliser 'comment' au lieu de 'content' pour correspondre au DTO backend
+      rating,
+      parentReviewId, // Pour les réponses à d'autres critiques
+    });
     return response.data;
   },
   updateReview: async (
@@ -185,13 +241,17 @@ export const reviewsApi = {
     rating: number
   ): Promise<Review> => {
     const response = await api.patch(`/reviews/${reviewId}`, {
-      content,
+      comment: content, // Utiliser 'comment' au lieu de 'content' pour correspondre au DTO backend
       rating,
     });
     return response.data;
   },
   deleteReview: async (reviewId: number): Promise<void> => {
     await api.delete(`/reviews/${reviewId}`);
+  },
+  likeReview: async (reviewId: number): Promise<{ likes: number }> => {
+    const response = await api.post(`/reviews/${reviewId}/like`);
+    return response.data;
   },
 };
 
